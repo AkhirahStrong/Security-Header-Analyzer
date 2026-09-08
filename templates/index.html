@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Security Header Analyzer</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <main class="container">
+      <header>
+        <p class="eyebrow">WEB SECURITY TOOL</p>
+
+        <h1>Security Header Analyzer</h1>
+
+        <p class="description">
+          Analyze a website's HTTP response headers and identify missing browser
+          security protections.
+        </p>
+      </header>
+
+      <section class="scanner">
+        <form method="POST">
+          <label for="url">Website URL</label>
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="url"
+              name="url"
+              placeholder="https://example.com"
+              required
+            />
+
+            <button type="submit">Analyze</button>
+          </div>
+        </form>
+      </section>
+
+      {% if results %}
+
+      <section class="results">
+        <div class="results-header">
+          <h2>Analysis Results</h2>
+        </div>
+
+        {% if results.error %}
+
+        <p>Error: {{ results.error }}</p>
+
+        {% else %}
+
+        <p>
+          <strong>Target:</strong>
+          {{ results.url }}
+        </p>
+
+        <p>
+          <strong>HTTP Status:</strong>
+          {{ results.status_code }}
+        </p>
+
+        <br />
+
+        <h3>Response Headers</h3>
+
+        <br />
+
+        {% for header, value in results.headers.items() %}
+        <p><strong>{{ header }}</strong>: {{ value }}</p>
+        {% endfor %} {% endif %}
+      </section>
+
+      {% else %}
+
+      <section class="results">
+        <div class="results-header">
+          <h2>Analysis Results</h2>
+
+          <span class="status"> Waiting for scan </span>
+        </div>
+
+        <div class="empty-results">
+          <p>Enter a website above to begin analysis.</p>
+        </div>
+      </section>
+
+      {% endif %}
+    </main>
+  </body>
+</html>
