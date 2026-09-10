@@ -1,5 +1,14 @@
 import requests
 
+security_headers = {
+    "Content-Security-Policy": "Controls which resources the browser can load.",
+    "Strict-Transport-Security": "Forces the browser to use HTTPS.",
+    "X-Content-Type-Options": "Helps prevent MIME-type sniffing.",
+    "X-Frame-Options": "Helps protect against clickjacking.",
+    "Referrer-Policy": "Controls how much referrer information is shared.",
+    "Permissions-Policy": "Controls access to browser features."
+}
+
 
 def scan_headers(request_url):
 
@@ -8,11 +17,20 @@ def scan_headers(request_url):
 
     try:
         response = requests.get(request_url, timeout=10)
+        headers = dict(response.headers)
+        
+        analysis = {}
+        
+        for header, explanation in security_headers.items():
+            if header in headers:
+                print(header, "PRESENT")
+            else:
+                print(header, "MISSING")    
 
         results = {
             "url": request_url,
             "status_code": response.status_code,
-            "headers": dict(response.headers)
+            "headers": headers
         }
 
         return results
