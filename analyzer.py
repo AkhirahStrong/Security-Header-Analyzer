@@ -6,7 +6,7 @@ security_headers = {
     "X-Content-Type-Options": "Helps prevent MIME-type sniffing.",
     "X-Frame-Options": "Helps protect against clickjacking.",
     "Referrer-Policy": "Controls how much referrer information is shared.",
-    "Permissions-Policy": "Controls access to browser features."
+    "Permissions-Policy": "Controls access to browser features.",
 }
 
 
@@ -17,27 +17,36 @@ def scan_headers(request_url):
 
     try:
         response = requests.get(request_url, timeout=10)
+
         headers = dict(response.headers)
-        
+
         analysis = {}
-        
+
         for header, explanation in security_headers.items():
+
             if header in headers:
-                print(header, "PRESENT")
+                analysis[header] = {
+                    "status": "PRESENT",
+                    "value": headers[header],
+                    "explanation": explanation,
+                }
+
             else:
-                print(header, "MISSING")    
+                analysis[header] = {
+                    "status": "MISSING",
+                    "value": None,
+                    "explanation": explanation,
+                }
 
         results = {
             "url": request_url,
             "status_code": response.status_code,
-            "headers": headers
+            "headers": headers,
+            "analysis": analysis,
         }
 
         return results
 
     except requests.RequestException as error:
 
-        return {
-            "url": request_url,
-            "error": str(error)
-        }    
+        return {"url": request_url, "error": str(error)}
