@@ -130,6 +130,117 @@ button:hover {
     text-align: center;
 }
 
+/* ========================================
+   SECURITY SCORE
+======================================== */
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+
+.score-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.score-card .label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.score-card strong {
+  font-size: 2rem;
+}
+
+
+/* ========================================
+   RISK LEVELS
+======================================== */
+
+.score-card.low {
+  border-left: 4px solid #3fb950;
+}
+
+.score-card.low strong {
+  color: #3fb950;
+}
+
+.score-card.medium {
+  border-left: 4px solid #d29922;
+}
+
+.score-card.medium strong {
+  color: #d29922;
+}
+
+.score-card.high {
+  border-left: 4px solid #f85149;
+}
+
+.score-card.high strong {
+  color: #f85149;
+}
+
+
+/* ========================================
+   HEADER RESULTS
+======================================== */
+
+.header-result {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.header-result h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #f0f6fc;
+}
+
+.header-result p {
+  color: #b1bac4;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+
+/* ========================================
+   PRESENT / MISSING
+======================================== */
+
+.status.present {
+  color: #3fb950;
+  font-weight: 600;
+}
+
+.status.missing {
+  color: #f85149;
+  font-weight: 600;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+  .score-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 600px) {
     .container {
         padding: 40px 0;

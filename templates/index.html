@@ -68,6 +68,20 @@
 
         <br />
 
+        <div class="score-grid">
+          <div class="score-card">
+            <span class="label">Security Header Score</span>
+            <strong>{{ "%.2f"|format(results.score) }}%</strong>
+          </div>
+
+          <div class="score-card {{ results.risk_level }}">
+            <span class="label">Risk Level</span>
+            <strong>{{ results.risk_level|upper }}</strong>
+          </div>
+        </div>
+
+        <br />
+
         <h3>Security Headers</h3>
 
         <br />
@@ -77,7 +91,7 @@
         <div class="header-result">
           <h4>{{ header }}</h4>
 
-          <p>
+          <p class="status {{ details.status|lower }}">
             <strong>Status:</strong>
             {{ details.status }}
           </p>
