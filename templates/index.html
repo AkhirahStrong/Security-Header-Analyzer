@@ -25,6 +25,7 @@
         </p>
       </header>
 
+      <!-- URL Scanner -->
       <section class="scanner">
         <form method="POST">
           <label for="url">Website URL</label>
@@ -52,26 +53,31 @@
 
         {% if results.error %}
 
-        <p>Error: {{ results.error }}</p>
+        <div class="error-message">
+          <strong>Scan Error</strong>
+          <p>{{ results.error }}</p>
+        </div>
 
         {% else %}
 
-        <p>
-          <strong>Target:</strong>
-          {{ results.url }}
-        </p>
+        <!-- Target Information -->
+        <div class="target-info">
+          <p>
+            <strong>Target:</strong>
+            {{ results.url }}
+          </p>
 
-        <p>
-          <strong>HTTP Status:</strong>
-          {{ results.status_code }}
-        </p>
+          <p>
+            <strong>HTTP Status:</strong>
+            {{ results.status_code }}
+          </p>
+        </div>
 
-        <br />
-
+        <!-- Score and Risk -->
         <div class="score-grid">
           <div class="score-card">
             <span class="label">Security Header Score</span>
-            <strong>{{ "%.2f"|format(results.score) }}%</strong>
+            <strong>{{ "%.1f"|format(results.score) }}%</strong>
           </div>
 
           <div class="score-card {{ results.risk_level }}">
@@ -80,29 +86,74 @@
           </div>
         </div>
 
-        <br />
+        <!-- Summary -->
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span class="summary-number"> {{ results.summary.total }} </span>
+            <span class="summary-label">Checked</span>
+          </div>
 
-        <h3>Security Headers</h3>
+          <div class="summary-card present-summary">
+            <span class="summary-number"> {{ results.summary.present }} </span>
+            <span class="summary-label">Present</span>
+          </div>
 
-        <br />
+          <div class="summary-card missing-summary">
+            <span class="summary-number"> {{ results.summary.missing }} </span>
+            <span class="summary-label">Missing</span>
+          </div>
+        </div>
 
+        <h3 class="section-title">Security Headers</h3>
+
+        <!-- Individual Header Results -->
         {% for header, details in results.analysis.items() %}
 
         <div class="header-result">
-          <h4>{{ header }}</h4>
+          <div class="header-title-row">
+            <h4>{{ header }}</h4>
 
-          <p class="status {{ details.status|lower }}">
-            <strong>Status:</strong>
-            {{ details.status }}
-          </p>
+            <span class="status-badge {{ details.status|lower }}">
+              {{ details.status }}
+            </span>
+          </div>
 
-          <p>{{ details.explanation }}</p>
+          <!-- Configuration Rating -->
+          {% if details.configuration %}
 
+          <div class="configuration">
+            <span class="configuration-label">Configuration</span>
+
+            <span class="configuration-value {{ details.configuration|lower }}">
+              {{ details.configuration }}
+            </span>
+          </div>
+
+          {% endif %}
+
+          <!-- Explanation -->
+          <div class="result-section">
+            <span class="result-label">What it does</span>
+
+            <p>{{ details.explanation }}</p>
+          </div>
+
+          <!-- Recommendation -->
+          <div class="recommendation">
+            <span class="result-label">Recommendation</span>
+
+            <p>{{ details.recommendation }}</p>
+          </div>
+
+          <!-- Raw Header Value -->
           {% if details.value %}
-          <p>
-            <strong>Value:</strong>
-            {{ details.value }}
-          </p>
+
+          <div class="technical-value">
+            <span class="result-label">Technical Value</span>
+
+            <p>{{ details.value }}</p>
+          </div>
+
           {% endif %}
         </div>
 
@@ -111,11 +162,12 @@
 
       {% else %}
 
+      <!-- Before a Scan -->
       <section class="results">
         <div class="results-header">
           <h2>Analysis Results</h2>
 
-          <span class="status"> Waiting for scan </span>
+          <span class="waiting-status"> Waiting for scan </span>
         </div>
 
         <div class="empty-results">
